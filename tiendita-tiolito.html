@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compritas Xpress - Tú pides, nosotros vamos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family: 'Poppins', sans-serif;}
+  html { scroll-behavior: smooth; }
+
+  body{ background: #0f172a; color: #333; padding-bottom: 90px; }
+
+  /* Banner Promocional */
+  .promo-banner {
+    background: linear-gradient(90deg, #ff9900, #ff5500);
+    color: white; text-align: center; padding: 12px;
+    font-size: 0.95rem; font-weight: 700;
+    box-shadow: 0 4px 10px rgba(255, 85, 0, 0.4);
+    animation: pulsar 2s infinite;
+  }
+  @keyframes pulsar { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
+
+  header{
+    text-align:center; padding:40px 20px 40px;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: white; border-bottom: 2px solid #334155;
+    margin-bottom: 30px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  .logo-icon {
+    font-size: 3.5rem; color: #004aad; background: #ffffff;
+    width: 100px; height: 100px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; margin: 0 auto 15px auto;
+    border: 4px solid #ff5500; box-shadow: 0 0 20px rgba(255, 85, 0, 0.4);
+  }
+
+  header h1{ font-size: 2.2rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; }
+  header p{ font-size: 1.1rem; color: #94a3b8; }
+
+  .container{padding:0 20px; max-width: 600px; margin: 0 auto;}
+
+  .card{
+    background: #ffffff; padding: 25px; border-radius: 24px;
+    margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border: 1px solid #e2e8f0; transition: transform 0.3s ease;
+  }
+  .card h2{ margin-bottom: 20px; font-size: 1.3rem; color: #0f172a; display: flex; align-items: center; gap: 12px; }
+  .card h2 i { color: #ff5500; background: #fff4ed; padding: 10px; border-radius: 12px; font-size: 1.2rem; }
+
+  /* Servicios */
+  .servicios-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .servicio-item {
+    background: #f8fafc; padding: 20px 10px; border-radius: 16px; text-align: center;
+    border: 2px solid transparent; cursor: pointer; transition: all 0.3s ease; user-select: none;
+  }
+  .servicio-item:hover { background: #f1f5f9; }
+  .servicio-item.seleccionado { background: #fff4ed; border-color: #ff5500; box-shadow: 0 5px 15px rgba(255, 85, 0, 0.2); transform: scale(1.05); }
+  .servicio-item i { font-size: 2.2rem; color: #004aad; margin-bottom: 10px; transition: color 0.3s; }
+  .servicio-item.seleccionado i { color: #ff5500; }
+  .servicio-item p { font-weight: 600; font-size: 0.95rem; }
+
+  /* Inputs */
+  .input-group { margin-bottom: 15px; }
+  input, textarea{
+    width:100%; padding:16px; border-radius:16px; border: 2px solid #f1f5f9;
+    background:#f8fafc; font-size: 1rem; color: #333; transition: all 0.3s ease;
+  }
+  input:focus, textarea:focus { outline: none; border-color: #ff5500; background: white; box-shadow: 0 0 0 4px rgba(255, 85, 0, 0.1); }
+
+  /* Propina simplificada */
+  .propina-container { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 15px; margin-bottom: 15px; }
+  .propina-container p { color: #475569; font-weight: 600; margin-bottom: 10px; font-size: 0.95rem;}
+  .propina-container i { color: #10b981; }
+
+  /* Botones */
+  button{
+    width:100%; padding:16px; border:none; border-radius:16px;
+    background: linear-gradient(to right, #004aad, #0066ff); color:white;
+    font-size:16px; font-weight: 700; cursor:pointer; margin-top:10px;
+    display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(0, 74, 173, 0.4);
+  }
+  button:active { transform: scale(0.96); }
+  .btn-secundario { background: #f1f5f9; color: #475569; box-shadow: none; }
+  .btn-secundario i { color: #3b82f6; }
+  
+  #map iframe{ width:100%; height:220px; border:none; border-radius:16px; margin-top: 15px; }
+  #estado{ text-align: center; margin-top: 8px; font-size: 0.9rem; font-weight: bold; }
+
+  /* Recomendaciones y Estrellas */
+  .lista-recomendaciones { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+  .recomendacion-box {
+    background: #f8fafc; border-left: 4px solid #ff5500; padding: 15px;
+    border-radius: 0 12px 12px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .recomendacion-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .recomendacion-head strong { color: #0f172a; font-size: 0.95rem; }
+  .estrellas i { color: #f59e0b; font-size: 0.8rem; }
+  .recomendacion-texto { color: #475569; font-size: 0.9rem; font-style: italic; }
+  
+  .separador-form { margin: 25px 0 15px; border-top: 2px dashed #e2e8f0; padding-top: 15px; }
+  .selector-estrellas { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; font-size: 1.8rem; color: #cbd5e1; cursor: pointer; }
+  .selector-estrellas i.activa { color: #f59e0b; }
+
+  /* Info */
+  .info-lista { list-style: none; }
+  .info-lista li { padding: 12px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+  .info-lista strong { color: #0f172a; }
+  .info-lista span { text-align: right; color: #475569; font-weight: 500;}
+
+  .social{ display: flex; gap: 15px; }
+  .social a{
+    text-decoration:none; color:white; background: #1877F2; padding:14px;
+    border-radius:16px; font-weight: 600; flex-grow: 1; text-align: center;
+  }
+
+  .whatsapp-flotante{
+    position:fixed; bottom:25px; right:25px; background:#25D366; color:white;
+    width: 60px; height: 60px; border-radius:50%; display: flex; align-items: center;
+    justify-content: center; font-size:30px; text-decoration:none;
+    box-shadow: 0 5px 20px rgba(37, 211, 102, 0.5); z-index: 1000; transition: transform 0.3s ease;
+  }
+  .whatsapp-flotante:hover { transform: scale(1.1) rotate(-10deg); }
+
+  footer { text-align: center; padding: 20px; font-size: 0.9rem; color: #94a3b8; }
+
+  #toast {
+    visibility: hidden; min-width: 250px; background-color: #1e293b; color: #fff;
+    text-align: center; border-radius: 12px; padding: 16px; position: fixed;
+    z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%);
+    font-size: 1rem; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  #toast.mostrar { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 3s; }
+  @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+  @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+</style>
+</head>
+<body>
+
+<div class="promo-banner">
+  <i class="fa-solid fa-bullhorn"></i> ¡PROMOCIÓN DE APERTURA! Solo $25 pesos por compra
+</div>
+
+<header>
+  <div class="logo-icon"><i class="fa-solid fa-motorcycle"></i></div>
+  <h1>Compritas Xpress</h1>
+  <p>Tú pides, nosotros vamos.</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2><i class="fa-solid fa-star"></i> 1. Elige tu servicio</h2>
+    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 15px;">Toca el servicio que necesitas hoy:</p>
+    
+    <div class="servicios-grid">
+      <div class="servicio-item" onclick="seleccionarCategoria(this, 'Compras de súper')">
+        <i class="fa-solid fa-basket-shopping" style="color: #10b981;"></i>
+        <p>Compras de súper</p>
+      </div>
+      <div class="servicio-item" onclick="seleccionarCategoria(this, 'Farmacia')">
+        <i class="fa-solid fa-pills" style="color: #ef4444;"></i>
+        <p>Farmacia</p>
+      </div>
+      <div class="servicio-item" onclick="seleccionarCategoria(this, 'Encargos y mandados')">
+        <i class="fa-solid fa-box-open" style="color: #8b5cf6;"></i>
+        <p>Encargos y mandados</p>
+      </div>
+      <div class="servicio-item" onclick="seleccionarCategoria(this, 'Envíos rápidos')">
+        <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
+        <p>Envíos rápidos</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="hacer-pedido">
+    <h2><i class="fa-solid fa-paper-plane"></i> 2. Detalles del pedido</h2>
+    
+    <div class="input-group">
+      <input type="text" id="nombre" placeholder="Tu nombre" required>
+    </div>
+    
+    <div class="input-group">
+      <textarea id="pedido" placeholder="¿Qué necesitas exactamente?" rows="3" required></textarea>
+    </div>
+
+    <div class="propina-container">
+      <p><i class="fa-solid fa-hand-holding-dollar"></i> Agregar Propina (Opcional)</p>
+      <input type="number" id="propina_monto" placeholder="Monto en pesos (Ej. 15)" min="0">
+    </div>
+
+    <button class="btn-secundario" onclick="obtenerUbicacion()">
+      <i class="fa-solid fa-location-crosshairs"></i> Compartir mi ubicación actual
+    </button>
+    <p id="estado"></p>
+
+    <div id="map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15270.730248431872!2d-97.6896264!3d17.2668541!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c6218d6e3c3b09%3A0x8085d7bd6a9c78b4!2sHeroica%20Ciudad%20de%20Tlaxiaco%2C%20Oax.!5e0!3m2!1ses!2smx!4v1714000000000!5m2!1ses!2smx" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <button onclick="enviarPedido()" style="background: linear-gradient(to right, #25D366, #128C7E);">
+      Enviar pedido a WhatsApp <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i>
+    </button>
+  </div>
+
+  <div class="card">
+    <h2><i class="fa-solid fa-comments"></i> Lo que dicen nuestros clientes</h2>
+    
+    <div class="lista-recomendaciones" id="contenedor-recomendaciones">
+      <div class="recomendacion-box">
+        <div class="recomendacion-head">
+          <strong>María P.</strong>
+          <div class="estrellas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        </div>
+        <p class="recomendacion-texto">"Muy rápidos y amables, me salvaron con la medicina de mi hijo a tiempo."</p>
+      </div>
+
+      <div class="recomendacion-box">
+        <div class="recomendacion-head">
+          <strong>Juan C.</strong>
+          <div class="estrellas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        </div>
+        <p class="recomendacion-texto">"Excelente servicio para los mandados, los recomiendo al 100%. Muy confiables."</p>
+      </div>
+    </div>
+
+    <div class="separador-form">
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px; text-align: center;"><strong>¿Usaste nuestro servicio?</strong> ¡Califícanos!</p>
+      
+      <div class="selector-estrellas" id="selector-estrellas">
+        <i class="fa-solid fa-star activa" onclick="calificar(1)"></i>
+        <i class="fa-solid fa-star activa" onclick="calificar(2)"></i>
+        <i class="fa-solid fa-star activa" onclick="calificar(3)"></i>
+        <i class="fa-solid fa-star activa" onclick="calificar(4)"></i>
+        <i class="fa-solid fa-star activa" onclick="calificar(5)"></i>
+      </div>
+
+      <div class="input-group">
+        <input type="text" id="nombre_resena" placeholder="Tu nombre o iniciales">
+      </div>
+      <div class="input-group">
+        <textarea id="texto_resena" placeholder="Escribe tu recomendación aquí..." rows="2"></textarea>
+      </div>
+      <button class="btn-secundario" onclick="publicarRecomendacion()">
+        <i class="fa-solid fa-plus"></i> Publicar reseña
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><i class="fa-solid fa-clock"></i> Información y Contacto</h2>
+    <ul class="info-lista">
+      <li><strong>Horario:</strong> <span>8:00 AM - 9:00 PM</span></li>
+      <li><strong>Línea 1:</strong> <span>953 128 8371</span></li>
+      <li><strong>Línea 2:</strong> <span>953 541 7746</span></li>
+      <li><strong>Cobertura:</strong> <span>Dentro de Tlaxiaco y comunidades cercanas</span></li>
+    </ul>
+    <div class="social" style="margin-top: 20px;">
+      <a href="https://www.facebook.com/" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i> Síguenos en Facebook</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 Compritas Xpress</p>
+  <p>Heroica Ciudad de Tlaxiaco, Oaxaca 🇲🇽</p>
+</footer>
+
+<div id="toast"></div>
+
+<a class="whatsapp-flotante" href="https://wa.me/529531288371" target="_blank">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+  let lat = null; let lon = null; let categoriaSeleccionada = ""; 
+  let estrellasSeleccionadas = 5; // Por defecto 5 estrellas
+
+  function seleccionarCategoria(elementoHTML, nombreCategoria) {
+    let tarjetas = document.querySelectorAll('.servicio-item');
+    tarjetas.forEach(tarjeta => { tarjeta.classList.remove('seleccionado'); });
+    elementoHTML.classList.add('seleccionado');
+    categoriaSeleccionada = nombreCategoria;
+  }
+
+  function mostrarNotificacion(mensaje, colorFondo = "#1e293b", icono = "") {
+    let toast = document.getElementById("toast");
+    toast.innerHTML = icono + " " + mensaje;
+    toast.style.backgroundColor = colorFondo;
+    toast.className = "mostrar";
+    setTimeout(function(){ toast.className = toast.className.replace("mostrar", ""); }, 3500);
+  }
+
+  function obtenerUbicacion(){
+    let estado = document.getElementById("estado");
+    if(navigator.geolocation){
+      estado.innerText = "Buscando tu ubicación... ⏳"; estado.style.color = "#f59e0b";
+      navigator.geolocation.getCurrentPosition(pos=>{
+        lat = pos.coords.latitude; lon = pos.coords.longitude;
+        estado.innerText = "¡Ubicación lista para enviar! ✔"; estado.style.color = "#10b981";
+        mostrarNotificacion("Ubicación obtenida", "#10b981", "<i class='fa-solid fa-check'></i>");
+        document.getElementById("map").innerHTML = `<iframe src="https://maps.google.com/maps?q=$4{lat},${lon}&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>`;
+      },()=>{
+        estado.innerText = "❌ No se pudo obtener. Revisa tu GPS."; estado.style.color = "#ef4444";
+        mostrarNotificacion("Error de ubicación", "#ef4444", "<i class='fa-solid fa-triangle-exclamation'></i>");
+      });
+    } else { estado.innerText = "Tu navegador no soporta ubicación."; }
+  }
+
+  function enviarPedido(){
+    let nombre = document.getElementById("nombre").value.trim();
+    let pedido = document.getElementById("pedido").value.trim();
+    let propina = document.getElementById("propina_monto").value.trim();
+
+    if(categoriaSeleccionada === "") {
+      mostrarNotificacion("Selecciona un servicio arriba", "#ef4444", "<i class='fa-solid fa-hand-pointer'></i>"); return; 
+    }
+    if(!nombre || !pedido){
+      mostrarNotificacion("Llena tu nombre y pedido", "#f59e0b", "<i class='fa-solid fa-circle-exclamation'></i>"); return;
+    }
+
+    let ubicacionLink = lat ? "https://maps.google.com/?q="+lat+","+lon : "No enviada (Pedir por chat)";
+    let textoPropina = (propina && propina > 0) ? "\n💚 *Propina agregada:* $" + propina : "";
+
+    let mensaje = encodeURIComponent(
+      "🛵 *NUEVO PEDIDO - Compritas Xpress*\n\n"+
+      "🏷️ *Servicio:* " + categoriaSeleccionada + "\n" +
+      "👤 *Nombre:* "+nombre+"\n"+
+      "🛒 *Pedido:* "+pedido+ textoPropina +"\n"+
+      "📍 *Ubicación:* "+ubicacionLink
+    );
+    window.open("https://wa.me/529531288371?text=" + mensaje, "_blank");
+  }
+
+  // --- LÓGICA DE ESTRELLAS Y RECOMENDACIONES ---
+  function calificar(cantidad) {
+    estrellasSeleccionadas = cantidad;
+    let estrellas = document.querySelectorAll('#selector-estrellas i');
+    estrellas.forEach((estrella, index) => {
+      if (index < cantidad) {
+        estrella.classList.add('activa');
+        estrella.style.color = '#f59e0b';
+      } else {
+        estrella.classList.remove('activa');
+        estrella.style.color = '#cbd5e1';
+      }
+    });
+  }
+
+  window.onload = function() {
+    cargarRecomendacionesLocales();
+  };
+
+  function publicarRecomendacion() {
+    let nombre = document.getElementById("nombre_resena").value.trim();
+    let texto = document.getElementById("texto_resena").value.trim();
+
+    if(!nombre || !texto) {
+      mostrarNotificacion("Por favor, llena tu nombre y opinión.", "#f59e0b", "<i class='fa-solid fa-pen'></i>"); return;
+    }
+
+    let nuevaResena = { nombre: nombre, texto: texto, estrellas: estrellasSeleccionadas };
+
+    let resenasGuardadas = JSON.parse(localStorage.getItem('compritas_resenas')) || [];
+    resenasGuardadas.push(nuevaResena);
+    localStorage.setItem('compritas_resenas', JSON.stringify(resenasGuardadas));
+
+    document.getElementById("nombre_resena").value = "";
+    document.getElementById("texto_resena").value = "";
+    calificar(5); // Resetear a 5 estrellas
+    
+    mostrarNotificacion("¡Gracias por tu recomendación!", "#10b981", "<i class='fa-solid fa-check'></i>");
+    cargarRecomendacionesLocales();
+  }
+
+  function cargarRecomendacionesLocales() {
+    let contenedor = document.getElementById("contenedor-recomendaciones");
+    let resenasGuardadas = JSON.parse(localStorage.getItem('compritas_resenas')) || [];
+
+    // Limpiamos las locales para no duplicarlas al volver a publicar
+    let reseñasHTML = contenedor.innerHTML;
+
+    resenasGuardadas.forEach(resena => {
+      // Generar el código de las estrellas según la calificación
+      let estrellasHTML = '';
+      for(let i=0; i<5; i++) {
+        if(i < resena.estrellas) {
+          estrellasHTML += '<i class="fa-solid fa-star"></i>';
+        } else {
+          estrellasHTML += '<i class="fa-solid fa-star" style="color: #cbd5e1;"></i>';
+        }
+      }
+
+      let htmlResena = `
+        <div class="recomendacion-box" style="border-left-color: #10b981;">
+          <div class="recomendacion-head">
+            <strong>${resena.nombre}</strong>
+            <div class="estrellas">${estrellasHTML}</div>
+          </div>
+          <p class="recomendacion-texto">"${resena.texto}"</p>
+        </div>
+      `;
+      if(!reseñasHTML.includes(resena.texto)){
+        contenedor.innerHTML += htmlResena;
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
